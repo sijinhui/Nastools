@@ -3,6 +3,7 @@ import shutil
 import sys
 from threading import Lock
 import ruamel.yaml
+import pathlib
 
 # 种子名/文件名要素分隔字符
 SPLIT_CHARS = r"\.|\s{2,}|\(|\)|\[|]|-|\+|【|】|/|～|;|&|\||#|_|「|」|（|）|~"
@@ -85,7 +86,8 @@ ZIMUZU_LIST = ['ANi', 'Nekomoe kissaten&LoliHouse']
 # WebDriver路径
 WEBDRIVER_PATH = {
     "Docker": "/usr/lib/chromium/chromedriver",
-    "Synology": "/var/packages/NASTool/target/bin/chromedriver"
+    "Synology": "/var/packages/NASTool/target/bin/chromedriver",
+    "Windows": shutil.which('chromedriver'),  # 自行将驱动放置到环境变量中。
 }
 
 _subtitle_season_re = r"[第\s]+([0-9一二三四五六七八九十S\-]+)\s*季"
@@ -148,7 +150,7 @@ class Config(object):
     _config_path = None
 
     def __init__(self):
-        self._config_path = os.environ.get('NASTOOL_CONFIG') if os.environ.get('NASTOOL_CONFIG') else r'E:\codes\github\Nastools\config\config.yaml'
+        self._config_path = os.environ.get('NASTOOL_CONFIG') if os.environ.get('NASTOOL_CONFIG') else pathlib.Path('config/config.yaml')
         if not os.environ.get('TZ'):
             os.environ['TZ'] = 'Asia/Shanghai'
         self.init_syspath()

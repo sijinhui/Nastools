@@ -1,5 +1,6 @@
 import json
 import os.path
+import shutil
 import tempfile
 import time
 from functools import reduce
@@ -73,6 +74,7 @@ class ChromeHelper(object):
         options.add_argument('--no-service-autorun')
         options.add_argument('--no-default-browser-check')
         options.add_argument('--password-store=basic')
+        if shutil.which('chrome'):    options.binary_location = shutil.which('chrome')
         if self._headless:
             options.add_argument('--headless')
         prefs = {
